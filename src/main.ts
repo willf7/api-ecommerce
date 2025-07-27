@@ -6,14 +6,14 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Poseidon Documentation')
+    .setTitle('Odyssa Documentation')
     .setDescription('Customized and scalable ecommerce')
     .setVersion('1.0')
-    .addTag('Poseidon')
+    .addTag('Odyssa')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('documentation', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }
