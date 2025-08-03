@@ -6,6 +6,7 @@ import { LoginDto } from './dtos/login-dto';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dtos/register-dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CurrentUser } from './types/current-user';
 
 @Injectable()
 export class AuthService {
@@ -35,6 +36,21 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  async validateJwtUser(userId: string): Promise<CurrentUser> {
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const currentUser: CurrentUser = {
+      id: user.id,
+      role: user.role,
+    };
+
+    return currentUser;
   }
 
   async register(dto: RegisterDto): Promise<User> {

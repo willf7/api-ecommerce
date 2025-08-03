@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../../auth/enums/role.enum';
 
 @Entity()
 export class User {
@@ -46,6 +47,9 @@ export class User {
 
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date | null;
+
+  @Column('enum', { enum: Role, default: Role.USER })
+  role: Role;
 
   @BeforeInsert()
   @BeforeUpdate()
