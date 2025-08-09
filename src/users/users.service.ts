@@ -25,19 +25,19 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  findAll(): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User | null> {
+  async findOne(id: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return this.usersRepository.save({ ...updateUserDto, id });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return this.usersRepository.softDelete(id);
   }
 
