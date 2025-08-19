@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { ageGroup } from '../enums/ageGroup.enum';
 import { Category } from 'src/categories/entities/category.entity';
 import { Brand } from 'src/brands/entities/brand.entity';
+import { ProductVariant } from 'src/product-variants/entities/product-variant.entity';
 
 @Entity()
 export class Product {
@@ -19,26 +21,19 @@ export class Product {
   @Column()
   name: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
-  price: number;
-
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
-  originalPrice: number;
-
-  @Column({ default: 0 })
-  stock: number;
-
-  @Column('simple-array', { nullable: true })
-  colors: string[];
-
-  @Column('simple-array', { nullable: true })
-  sizes: string[];
+  @Column()
+  description: string;
 
   @ManyToOne(() => Brand, (brand) => brand.products)
   brand: Brand;
 
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
+
+  @OneToMany(() => ProductVariant, (variant) => variant.product, {
+    cascade: true,
+  })
+  variants: ProductVariant[];
 
   @Column({ type: 'enum', enum: ageGroup })
   ageGroup: ageGroup;
